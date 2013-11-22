@@ -15,13 +15,11 @@ public class ResourceResponse<T> implements EntityRestResponse<T> {
     private T mModel;
 
     /**
-     *
      * @param rawJson json data
-     * @param model an empty model
+     * @param model   an empty model
      */
     public ResourceResponse(String rawJson, T model) {
         Validate.notNull(rawJson, "rawJson cannot be null");
-        Validate.notNull(model, "model must not be null");
         mRawJson = rawJson;
         mModel = model;
     }
@@ -31,6 +29,11 @@ public class ResourceResponse<T> implements EntityRestResponse<T> {
         return mRawJson;
     }
 
+    /**
+     * Get the model.
+     * @return the model or null if the the data cannot be parsed into a model of
+     * type T.
+     */
     @Override
     public T getModel() {
         return mModel;

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -51,10 +52,9 @@ public class ResourceRequest<T> implements EntityRestRequest<T> {
         } catch (IOException e) {
             e.printStackTrace();
             String error = readInputStream(urlConnection.getErrorStream());
-            throw new RestRequestException("Unable to open InputStream to "+mUrl+"\n"+error);
-        }
-        finally {
-                urlConnection.disconnect();
+            throw new RestRequestException("Unable to open InputStream to " + mUrl + "\n" + error);
+        } finally {
+            urlConnection.disconnect();
         }
 
         return jsonData;
@@ -73,8 +73,8 @@ public class ResourceRequest<T> implements EntityRestRequest<T> {
         T modelInstance = null;
 
         try {
-             modelInstance = mMapper.readValue(rawJson, model);
-             response = new ResourceResponse<T>(rawJson, modelInstance);
+            modelInstance = mMapper.readValue(rawJson, model);
+            response = new ResourceResponse<T>(rawJson, modelInstance);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -86,8 +86,7 @@ public class ResourceRequest<T> implements EntityRestRequest<T> {
      * Attempt to open a connection to the specified url.
      * @param url to connect to.
      * @return a HTTP connection to the specified url
-     * @throws RestRequestException if unable
-     *         to open a connection.
+     * @throws RestRequestException if unable to open a connection.
      */
     private HttpURLConnection connect(URL url) {
         HttpURLConnection urlConnection;
@@ -97,9 +96,12 @@ public class ResourceRequest<T> implements EntityRestRequest<T> {
             urlConnection = (HttpURLConnection) url.openConnection();
             //force a flush of the underlying output/input stream
             urlConnection.getResponseCode();
+        } catch (EOFException e) {
+            e.printStackTrace();
+            throw new RestRequestException("Unable to open connection to " + mUrl);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RestRequestException("Unable to open connection to "+mUrl);
+            throw new RestRequestException("Unable to open connection to " + mUrl);
         }
         return urlConnection;
     }
@@ -125,7 +127,6 @@ public class ResourceRequest<T> implements EntityRestRequest<T> {
 
         return result.toString();
     }
-
 
 
 }

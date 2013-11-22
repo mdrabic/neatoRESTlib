@@ -9,7 +9,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
  *
  * @author mike
  */
-public interface EntityRestRequest<T> extends RestRequest{
+public interface EntityRestRequest<T> extends RestRequest {
 
     /**
      * Executes the request by making a connection to the server, reading the stream

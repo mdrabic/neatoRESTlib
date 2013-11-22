@@ -6,7 +6,7 @@ package com.mdrabic.rest.rest;
  *
  * @author mike
  */
-public class RestRequestException extends RuntimeException{
+public class RestRequestException extends RuntimeException {
 
     private RestRequestException(){}
 
