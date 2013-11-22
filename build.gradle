@@ -3,33 +3,20 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.5.+'
+        classpath 'com.android.tools.build:gradle:0.6.+'
     }
 }
-
-apply plugin: 'java'
 
 repositories {
     mavenCentral()
 }
 
-task copyToLib(type: Copy) {
-    into "$buildDir/output/lib"
-    from configurations.runtime
-}
+apply plugin: 'android-library'
 
-jar {
-    dependsOn("copyToLib")
-    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-    manifest {
-        attributes("Implementation-Title": "DAO Generator for DocDock",
-                "Version": "1",
-                "Built-By": System.getProperty("user.name"),
-                "Built-Date": new Date(),
-                "Built-JDK": System.getProperty("java.version"));
-    }
+android {
+    compileSdkVersion 15
+    buildToolsVersion "18.1.0"
 }
-
 
 dependencies {
     compile 'com.fasterxml.jackson.core:jackson-core:2.2.3'
