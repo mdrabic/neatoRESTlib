@@ -25,6 +25,7 @@
     <orderEntry type="library" name="jackson-annotations-2.2.3" level="project" />
     <orderEntry type="library" name="jackson-core-2.2.3" level="project" />
     <orderEntry type="library" name="jackson-databind-2.2.3" level="project" />
+    <orderEntry type="library" name="android-support-v4" level="project" />
   </component>
 </module>
 
